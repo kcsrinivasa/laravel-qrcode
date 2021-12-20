@@ -1,0 +1,48 @@
+--This project is focused on laravel generate qr code--
+
+
+---To create a project---
+composer create-project --prefer-dist laravel/laravel qrcode
+
+
+---To open project in browser---
+mv server.php index.php
+cp public/.htaccess .
+---open in browser---
+http://localhost/laravel/qrcode
+
+---install qrcode generate package---
+composer require simplesoftwareio/simple-qrcode
+
+---add service provider and aliase in config/app.php ------
+'providers' => [
+	....
+	SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+],
+
+'aliases' => [
+	...
+	'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
+],
+
+
+---create qrcode controller---
+php artisan make:controller QRcodeController -r
+
+
+-----------for payment to scan------
+--content--
+upi://pay?pa=9626837503@ibl&pn=Thamaraiselvan%20Thanabal&mc=0000&mode=02&purpose=00&am=100&cu=INR
+--parameters---
+	upi://pay?pa=" +   // payment method.
+	"8173816187@paytm" +         // VPA number.
+	"&am="+ TOTAL_AMOUNT +       // this param is for fixed amount (non editable).
+	"&pn=Prasahnt%20Verma"+      // to showing your name in app.
+	"&cu=INR" +                  // Currency code.
+	"&mode=02" +                 // mode O2 for Secure QR Code.
+	"&orgid=189999" +            //If the transaction is initiated by any PSP app then the respective orgID needs to be passed.
+	"&sign=MEYCIQC8bLDdRbDhpsPAt9wR1a0pcEssDaV" +   // Base 64 encoded Digital signature needs to be passed in this tag
+	"Q7lugo8mfJhDk6wIhANZkbXOWWR2lhJOH2Qs/OQRaRFD2oBuPCGtrMaVFR23t"
+
+
+
